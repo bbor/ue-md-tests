@@ -1,4 +1,5 @@
-oAvailability: Public
+---
+Availability: Public
 Crumbs: 
 Title: Finding and Removing Fully Occluded Meshes
 Description: Describes how you can increase rendering performance by removing and simplifying geometry that is fully occluded by other objects in the Level.
@@ -9,9 +10,9 @@ Order:
 Tags: how to
 Tags: Datasmith
 Tags: intermediate
+---
 
-
-![](jacketing-banner.png)
+![](Images/jacketing-banner.png)
 
 One way to increase rendering performance in any real-time 3D application is to simply reduce the number of objects that need to be drawn each frame. Usually, the camera doesn't see every object in the 3D scene at the same time. Any objects that are occluded — that is, blocked from the camera's current view by other objects — can safely be skipped during rendering to improve performance without changing the final image.
 
@@ -21,10 +22,10 @@ For example, the engine assembly below contains 542 separate Static Mesh Actor
 
 [OBJECT:ComparisonSlider]
  [PARAM:before]
- ![Complete engine, 542 Actors](jacketing-engine-default.png) 
+ ![Complete engine, 542 Actors](Images/jacketing-engine-default.png) 
  [/PARAM]
  [PARAM:after]
- ![321 fully occluded Actors](jacketing-engine-occluded.png) 
+ ![321 fully occluded Actors](Images/jacketing-engine-occluded.png) 
  [/PARAM]
 [/OBJECT]
 
@@ -36,7 +37,7 @@ This process is sometimes referred to as *jacketing*.
 
 Often, an outer shell of geometry that hides internal meshes from view is not completely closed. The outer geometry may contain small gaps or discontinuities, but still block a viewer from making out internal details. For example, in this motor, the chain passes through the exterior shell through small holes:
 
-![Gaps in the occluding meshes](jacketing-gaps.png "Gaps in the occluding meshes")
+![Gaps in the occluding meshes](Images/jacketing-gaps.png "Gaps in the occluding meshes")
 
 In cases like these, you still want to hide the internal meshes. Therefore, when determining which triangles are occluded, the jacketing algorithm can bridge small gaps, acting as if those gaps were covered by a mesh. This allows you to get the benefit of hiding the internal occluded parts, even if the occluding meshes are not completely sealed.
 
@@ -57,7 +58,7 @@ When you run the jacketing tool with the Level target, it conducts occlusion tes
 In the Unreal Editor UI, you can:
 
 *   Tag the occluded Actors with a new Component Tag, **Jacketing Hidden**.  
-    ![Jacketing Hidden tag](jacketing-tag.png "Jacketing Hidden tag")  
+    ![Jacketing Hidden tag](Images/jacketing-tag.png "Jacketing Hidden tag")  
     **
 *   Put the occluded Actors on a new Layer named **Jacketing**.
 *   Hide the occluded Actors from view by turning off their **Actor Hidden in Game** setting.
@@ -83,17 +84,17 @@ For example, the closed assembly shown below has some complex geometry inside it
 
 [OBJECT:ComparisonSlider]
  [PARAM:before]
- ![Assembly with complex internal geometry](jacketing-mesh-before.png) 
+ ![Assembly with complex internal geometry](Images/jacketing-mesh-before.png) 
  [/PARAM]
  [PARAM:after]
- ![After jacketing](jacketing-mesh-after.png) 
+ ![After jacketing](Images/jacketing-mesh-after.png) 
  [/PARAM]
 [/OBJECT]
 
 You can see the results of the Jacketing tool in the **Output Log** panel, including the number of triangles the tool was able to remove:
 
 [REGION:lightbox]
-[![Jacketing results](jacketing-results.png "Jacketing results")](jacketing-results.png)
+[![Jacketing results](Images/jacketing-results.png "Jacketing results")](Images/jacketing-results.png)
 
 *Click for full image.*
 [/REGION]
@@ -109,7 +110,7 @@ To apply jacketing in the Level Viewport:
 2.  Right-click any of the selected Actors in the Level Viewport or the **World Outliner**, and select **Jacketing**.  
     ![Jacketing in the contextual menu](jacketing-right-click.png "Jacketing in the contextual menu")
 3.  In the **Remove occluded meshes** window, configure the sensitivity of the occlusion tests and set the target you want to affect.  
-    ![Jacketing settings](jacketing-settings.png "Jacketing settings")  
+    ![Jacketing settings](Images/jacketing-settings.png "Jacketing settings")  
     
 | **Setting** | **Description** |
 | --- | --- |
@@ -118,29 +119,25 @@ To apply jacketing in the Level Viewport:
 | **Action Level** | Determines whether the tool will use the **Level** target or the **Mesh** target. |
 | **Action Type** | If you choose to affect the Level target, also use the **Action Type** drop-down list to determine what should be done with the set of Actors that the jacketing tool determines to be fully occluded. See [The Level Target](#theleveltarget) above for details. |
     
-[COMMENT:none]
--
+<!--
 [EXCERPT:excerpt_1]
 Sets the maximum size of the gaps in the occluding volumes that the occlusion tests will consider to be filled.
 [REGION:note]
 Do not set this value too low. See the [Gaps](#gaps) section above for details.
 [/REGION]
 [/EXCERPT:excerpt_1]
--
-[/COMMENT]
-[COMMENT:none]
--
+-->
+<!--
 [EXCERPT:excerpt_0]
 Controls the sensitivity of the occlusion tests. Reduce the value for smaller models and to achieve greater precision.
 [REGION:note]
 This setting directly affects the time and memory requirements for the collision tests. Start with a relatively large value, and lower the value until you achieve the fidelity you need.
 [/REGION]
 [/EXCERPT:excerpt_0]
- -
-[/COMMENT]
+-->
     
 4.  Click **Proceed** to launch the occlusion tests.  
-    ![Proceed](jacketing-proceed.png "Proceed")
+    ![Proceed](Images/jacketing-proceed.png "Proceed")
 5.  If you selected the Mesh target, your modified meshes will be marked as dirty. Save them before closing the Unreal Editor if you want to keep your changes.
 
 ## Jacketing in Editor Scripts
@@ -153,7 +150,7 @@ You can carry out the same jacketing operation offered by the Level Viewport (an
 
 Choose your language.
 
-###Blueprints
+### Blueprints
 
 To use these nodes, your Blueprint class must be derived from an Editor-only class, such as the **PlacedEditorUtilityBase** class. For details, see [Scripting the Editor using Blueprints](Engine/Editor/ScriptingandAutomation/Blueprints).
 
@@ -168,23 +165,23 @@ You need to feed this node with two inputs:
     1.  Add a new variable to the Blueprint by clicking the **\+ Variable** button in the **My Blueprint** panel.  
         ![Add variable](jacketing-add-variable.png "Add variable")
     2.  Set the type of the variable to be a reference to a **Mesh Defeaturing Parameter Object**.  
-        ![Jacketing Options object reference](jacketing-object-reference.png "Jacketing Options object reference")
+        ![Jacketing Options object reference](Images/jacketing-object-reference.png "Jacketing Options object reference")
     3.  Hold **Control** and drag the variable into the Blueprint graph to create a new node that gets the variable value.  
-        ![Drag and drop the variable](jacketing-drag-drop.png "Drag and drop the variable")
+        ![Drag and drop the variable](Images/jacketing-drag-drop.png "Drag and drop the variable")
     4.  Drag right from the output port of the new variable node, and select from the **Variables** list the **Set** nodes for the settings that you need to modify.  
-        ![Drag right for the Jacketing Options API](jacketing-options-api.png "Drag right for the Jacketing Options API")
+        ![Drag right for the Jacketing Options API](Images/jacketing-options-api.png "Drag right for the Jacketing Options API")
 
 If you set the **JacketingOptions** to use Level target mode, the **Apply Jacketing on Mesh Actors** node returns an Array of all the Static Mesh Actors that are occluded from all points of view. You can then iterate over this list to do something with the Actors.
 
 For example, the following Blueprint graph collects all the Static Mesh Actors in the Level, runs the jacketing occlusion test with the LEVEL target, and selects those Actors in the Viewport and World Outliner.
 
 [REGION:lightbox]
-[![Jacketing example](jacketing-example.png "Jacketing example")](jacketing-example.png)
+[![Jacketing example](Images/jacketing-example.png "Jacketing example")](jacketing-example.png)
 
 *Click for full image.*
 [/REGION]
 
-###Python 
+### Python 
 
 You can run the occlusion test and jacketing process on any set of Static Mesh Actors in the current Level by calling the `unreal.MeshProcessingLibrary.apply_jacketing_on_mesh_actors()` function. You'll need to pass this function two parameters:
 
@@ -242,4 +239,4 @@ For example:
     # Performs the jacketing operation.
     # Acting on the MESH target makes the function apply changes directly to the geometry of the
     # Static Mesh Assets that are visible from the outside.
- unreal.MeshProcessingLibrary.apply_jacketing_on_mesh_actors(actors, options)
+    unreal.MeshProcessingLibrary.apply_jacketing_on_mesh_actors(actors, options)
